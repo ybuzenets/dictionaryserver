@@ -3,14 +3,13 @@ package dev.buzenets.dictionary.server.model;
 import dev.buzenets.dictionary.server.functions.RemoveValuesFunction;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Dictionary {
-    private static Dictionary INSTANCE;
+    private static final Dictionary INSTANCE = new Dictionary();
     private final ConcurrentMap<String, Set<String>> dict = new ConcurrentHashMap<>();
 
     private Dictionary() {
@@ -34,10 +33,6 @@ public class Dictionary {
     }
 
     public static Dictionary getInstance() {
-        return Optional.ofNullable(INSTANCE)
-            .orElseGet(() -> {
-                INSTANCE = new Dictionary();
-                return INSTANCE;
-            });
+        return INSTANCE;
     }
 }
