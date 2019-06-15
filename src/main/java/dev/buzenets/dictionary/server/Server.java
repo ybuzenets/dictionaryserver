@@ -21,7 +21,6 @@ public class Server implements Runnable {
     }
 
     public void run() {
-
         openServerSocket(address);
         while (!isStopped()) {
             try {

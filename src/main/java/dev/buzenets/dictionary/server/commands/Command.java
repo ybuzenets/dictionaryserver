@@ -3,14 +3,15 @@ package dev.buzenets.dictionary.server.commands;
 import dev.buzenets.dictionary.server.model.Dictionary;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public enum Command {
     ADD {
-        public void execute(List<String> args, OutputStream output) {
+        @Override
+        public void execute(List<String> args, OutputStreamWriter output) {
             args.stream()
                 .findFirst()
                 .ifPresent(key -> DICTIONARY.add(
@@ -20,13 +21,14 @@ public enum Command {
                         .collect(Collectors.toList())
                 ));
             try {
-                output.write("Значения слова успешно добавлены".getBytes());
+                output.write("Значения слова успешно добавлены");
             } catch (IOException e) {
                 LOG.severe(e::getMessage);
             }
         }
     }, DELETE {
-        public void execute(List<String> args, OutputStream output) {
+        @Override
+        public void execute(List<String> args, OutputStreamWriter output) {
             args.stream()
                 .findFirst()
                 .map(key -> Dictionary.getInstance()
@@ -39,33 +41,34 @@ public enum Command {
                 .filter(b -> b)
                 .ifPresentOrElse(t -> {
                     try {
-                        output.write("Значения слова успешно удалены".getBytes());
+                        output.write("Значения слова успешно удалены");
                     } catch (IOException e) {
                         LOG.severe(e::getMessage);
                     }
                 }, () -> {
                     try {
-                        output.write("Cлово/значение отсутвует в словаре".getBytes());
+                        output.write("Слово/значение отсутвует в словаре");
                     } catch (IOException e) {
                         LOG.severe(e::getMessage);
                     }
                 });
         }
     }, GET {
-        public void execute(List<String> args, OutputStream output) {
+        @Override
+        public void execute(List<String> args, OutputStreamWriter output) {
             args.stream()
                 .findFirst()
                 .map(key -> Dictionary.getInstance()
                     .get(key))
                 .ifPresentOrElse(response -> response.forEach(word -> {
                     try {
-                        output.write(word.getBytes());
+                        output.write(word);
                     } catch (IOException e) {
                         LOG.severe(e::getMessage);
                     }
                 }), () -> {
                     try {
-                        output.write("Cлово отсутвует в словаре".getBytes());
+                        output.write("Слово отсутвует в словаре");
                     } catch (IOException e) {
                         LOG.severe(e::getMessage);
                     }
@@ -89,7 +92,7 @@ public enum Command {
         }
     }
 
-    public void execute(List<String> args, OutputStream output) {
+    public void execute(List<String> args, OutputStreamWriter output) {
         //default implementation
     }
 }
