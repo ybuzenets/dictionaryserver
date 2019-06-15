@@ -1,6 +1,7 @@
-package dev.buzenets;
+package dev.buzenets.dictionary.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,13 +13,16 @@ public class Server implements Runnable {
     private final int serverPort;
     private ServerSocket serverSocket = null;
     private boolean isStopped = false;
+    private String address;
 
-    public Server(int port) {
+    public Server(String address, int port) {
         this.serverPort = port;
+        this.address = address;
     }
 
     public void run() {
-        openServerSocket();
+
+        openServerSocket(address);
         while (!isStopped()) {
             try {
                 final Socket clientSocket = serverSocket.accept();
@@ -46,11 +50,11 @@ public class Server implements Runnable {
         }
     }
 
-    private void openServerSocket() {
+    private void openServerSocket(String host) {
         try {
-            this.serverSocket = new ServerSocket(this.serverPort);
+            this.serverSocket = new ServerSocket(serverPort, 50,  InetAddress.getByName(host));
         } catch (IOException e) {
-            throw new RuntimeException("Cannot open port 8080", e);
+            throw new RuntimeException("Cannot open port " +serverPort, e);
         }
     }
 }

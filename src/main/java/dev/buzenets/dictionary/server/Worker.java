@@ -1,4 +1,4 @@
-package dev.buzenets;
+package dev.buzenets.dictionary.server;
 
 import java.io.IOException;
 import java.io.InputStream;
