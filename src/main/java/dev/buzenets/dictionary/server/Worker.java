@@ -1,9 +1,13 @@
 package dev.buzenets.dictionary.server;
 
+import dev.buzenets.dictionary.server.commands.Command;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class Worker implements Runnable {
     private final Socket clientSocket;
@@ -13,17 +17,17 @@ public class Worker implements Runnable {
     }
 
     public void run() {
-        try {
+        try (
             InputStream input = clientSocket.getInputStream();
-            OutputStream output = clientSocket.getOutputStream();
-            final String currentThread = Thread.currentThread()
-                .toString();
-            output.write(String.format("HTTP/1.1 200 OK%n%nWorkerRunnable: %s", currentThread)
-                .getBytes());
-            output.close();
-            input.close();
-        } catch (IOException e) {
-            //report exception somewhere
+            ObjectInputStream ois = new ObjectInputStream(input);
+            OutputStream output = clientSocket.getOutputStream()
+        ) {
+            final String command = ois.readUTF();
+            final List<String> args = ((List<String>) ois.readObject());
+            Command.getByName(command)
+                .execute(args, output);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IllegalStateException(e);
         }
     }
 }

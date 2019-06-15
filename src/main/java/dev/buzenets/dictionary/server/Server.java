@@ -10,10 +10,10 @@ import java.net.Socket;
  */
 //TODO: Use Tomcat/Jetty/ with Spring Web/Webflux (JAX-RS) in real world
 public class Server implements Runnable {
+    private final String address;
     private final int serverPort;
     private ServerSocket serverSocket = null;
     private boolean isStopped = false;
-    private String address;
 
     public Server(String address, int port) {
         this.serverPort = port;
@@ -52,9 +52,9 @@ public class Server implements Runnable {
 
     private void openServerSocket(String host) {
         try {
-            this.serverSocket = new ServerSocket(serverPort, 50,  InetAddress.getByName(host));
+            this.serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(host));
         } catch (IOException e) {
-            throw new RuntimeException("Cannot open port " +serverPort, e);
+            throw new RuntimeException("Cannot open port " + serverPort, e);
         }
     }
 }
