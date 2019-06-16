@@ -1,4 +1,4 @@
-package dev.buzenets.dictionary.server;
+package dev.buzenets.dictionary.server.server;
 
 import dev.buzenets.dictionary.server.commands.Command;
 
@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Worker implements Runnable {
-    private final Logger log = Logger.getLogger(Worker.class.getName() +Thread.currentThread().getName());
+    private final Logger log = Logger.getLogger(Worker.class.getName() + Thread.currentThread()
+        .getName());
     private final Socket clientSocket;
 
     public Worker(Socket clientSocket) {
@@ -26,10 +27,10 @@ public class Worker implements Runnable {
             OutputStream os = clientSocket.getOutputStream()
         ) {
             final String encoding = ois.readUTF();
-            log.fine("Target encoding: " + encoding);
+            log.fine(String.format("Target encoding: %s", encoding));
 
             final String command = ois.readUTF();
-            log.fine("Command: " + command);
+            log.fine(String.format("Command: %s", command));
             final List<String> args = ((List<String>) ois.readObject());
             execute(os, encoding, command, args);
             log.fine("Finished");

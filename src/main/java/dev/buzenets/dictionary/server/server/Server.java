@@ -1,4 +1,4 @@
-package dev.buzenets.dictionary.server;
+package dev.buzenets.dictionary.server.server;
 
 import java.io.IOException;
 import java.net.InetAddress;

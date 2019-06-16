@@ -12,7 +12,7 @@ public class Dictionary {
     private static final Dictionary INSTANCE = new Dictionary();
     private final ConcurrentMap<String, Set<String>> dict = new ConcurrentHashMap<>();
 
-    private Dictionary() {
+    Dictionary() {
     }
 
     public void add(String key, Collection<String> words) {

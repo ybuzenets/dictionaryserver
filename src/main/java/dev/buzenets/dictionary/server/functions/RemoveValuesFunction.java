@@ -9,7 +9,7 @@ public class RemoveValuesFunction implements BinaryOperator<Set<String>> {
     @Override
     public Set<String> apply(Set<String> oldValue, Set<String> newValue) {
         modified = oldValue.removeAll(newValue);
-        return oldValue;
+        return oldValue.isEmpty() ? null : oldValue;
     }
 
     public boolean isModified() {

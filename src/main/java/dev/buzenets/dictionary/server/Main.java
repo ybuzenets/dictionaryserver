@@ -2,6 +2,7 @@ package dev.buzenets.dictionary.server;
 
 import com.beust.jcommander.JCommander;
 import dev.buzenets.dictionary.server.args.Args;
+import dev.buzenets.dictionary.server.server.Server;
 
 public class Main {
     public static void main(String[] argv) {
