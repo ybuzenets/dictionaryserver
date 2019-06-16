@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
     <name>dictionaryserver</name>
-    <url>http://dictionary.buzenets.dev/</url>
+    <url>http://dictionary.buzenets.dev:2323/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
